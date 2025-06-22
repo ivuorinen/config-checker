@@ -1,6 +1,6 @@
 {
   "name": "@ivuorinen/config-checker",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "description": "Checks the commonly used configuration locations for configuration files",
   "keywords": [
     "check-config",
