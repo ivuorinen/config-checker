@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Run PR Lint
         # https://github.com/ivuorinen/actions
-        uses: ivuorinen/actions/pr-lint@86387d514e628a6b8b2c8c4f559ba3e0147204a8 # 25.8.4
+        uses: ivuorinen/actions/pr-lint@e3b436adb3d9871b9cc27e19d13ba7f50cbac62e # 25.8.18
 
   publish:
     name: Publish
