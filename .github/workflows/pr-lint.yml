@@ -12,6 +12,10 @@ concurrency:
 
 permissions: read-all
 
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GITHUB_TOKEN: ${{ github.token }}
+
 jobs:
   Linter:
     name: PR Lint
@@ -25,12 +29,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Yarn Lock Changes
         uses: Simek/yarn-lock-changes@34017425198654c20162a4dfd4f238fbece9636f # v0.12.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Run PR Lint
         # https://github.com/ivuorinen/actions
         uses: ivuorinen/actions/pr-lint@e3b436adb3d9871b9cc27e19d13ba7f50cbac62e # 25.8.18
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
