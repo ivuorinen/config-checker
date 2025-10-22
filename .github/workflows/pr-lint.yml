@@ -33,7 +33,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Yarn Lock Changes
-        uses: Simek/yarn-lock-changes@34017425198654c20162a4dfd4f238fbece9636f # v0.12.1
+        uses: Simek/yarn-lock-changes@61d1a0595070b79c1abdc8e1e5a5f5d98b18918c # v0.12.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
