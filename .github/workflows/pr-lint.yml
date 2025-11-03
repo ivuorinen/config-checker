@@ -42,7 +42,7 @@ jobs:
 
       - name: Run PR Lint
         # https://github.com/ivuorinen/actions
-        uses: ivuorinen/actions/pr-lint@a1c0435c2248a8053119858c610662e57f2d4334 # 25.11.2
+        uses: ivuorinen/actions/pr-lint@ff0ca4bc920c518b2ce2dc20c5e5a6e95f76dee0 # v2025.11.02
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
