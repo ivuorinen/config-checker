@@ -22,9 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      statuses: write
       contents: read
+      issues: write
       packages: read
+      statuses: write
 
     steps:
       - name: Checkout
