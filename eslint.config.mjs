@@ -1,4 +1,4 @@
-import ivuorinenConfig from '@ivuorinen/eslint-config'
+import ivuorinenConfig from "@ivuorinen/eslint-config";
 
 export default [
   ...ivuorinenConfig,
@@ -7,6 +7,6 @@ export default [
   {
     rules: {
       // "no-unused-vars": "warn"
-    }
-  }
-]
+    },
+  },
+];
