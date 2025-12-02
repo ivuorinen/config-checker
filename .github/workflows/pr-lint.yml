@@ -35,7 +35,7 @@ jobs:
 
       - name: Install and enable corepack
         shell: sh
-        run: npm install -g yarn --force && corepack enable
+        run: npm install -g corepack --force && corepack enable
 
       - name: Yarn Lock Changes
         uses: Simek/yarn-lock-changes@61d1a0595070b79c1abdc8e1e5a5f5d98b18918c # v0.12.2
