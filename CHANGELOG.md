@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/ivuorinen/config-checker/compare/v1.0.0...v1.1.0) (2025-12-02)
+
+
+### Features
+
+* modernize workflows and standardize configuration files ([#85](https://github.com/ivuorinen/config-checker/issues/85)) ([6dd157f](https://github.com/ivuorinen/config-checker/commit/6dd157f35b5828837876d964cec69bb37b63a9e4))
+
 # 1.0.0 (2025-10-10)
 
 ### Bug Fixes
