@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/ivuorinen/config-checker/compare/v2.1.1...v2.1.2) (2026-02-26)
+
+
+### Bug Fixes
+
+* add main branch configuration to release settings ([4d5cf19](https://github.com/ivuorinen/config-checker/commit/4d5cf19e12246494201ff63fca4e63f6367942dc))
+
 ## [2.1.1](https://github.com/ivuorinen/config-checker/compare/v2.1.0...v2.1.1) (2025-12-02)
 
 
