@@ -52,6 +52,6 @@
   "resolutions": {
     "minimatch": "^10.2.5",
     "picomatch": "^4.0.4",
-    "undici": "^7.24.7"
+    "undici": "^8.0.0"
   }
 }
