@@ -3,18 +3,39 @@
 module.exports = {
   branches: ["main"],
   plugins: [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
     [
-      "@semantic-release/changelog",
+      "@semantic-release/commit-analyzer",
       {
-        changelogTitle:
-          "# Changelog\n\nAll notable changes to this project will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines.",
+        preset: "conventionalcommits",
+        releaseRules: [
+          { breaking: true, type: "chore", scope: "deps", release: "minor" },
+          { type: "chore", scope: "deps", release: "patch" },
+          { type: "chore", scope: "actions", release: false },
+        ],
+      },
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        preset: "conventionalcommits",
+        presetConfig: {
+          types: [
+            { type: "feat", section: "Features" },
+            { type: "fix", section: "Bug Fixes" },
+            { type: "perf", section: "Performance" },
+            { type: "revert", section: "Reverts" },
+            { type: "chore", section: "Maintenance" },
+            { type: "docs", hidden: true },
+            { type: "style", hidden: true },
+            { type: "refactor", hidden: true },
+            { type: "test", hidden: true },
+            { type: "build", hidden: true },
+            { type: "ci", hidden: true },
+          ],
+        },
       },
     ],
     "@semantic-release/npm",
     "@semantic-release/github",
-    "@semantic-release/git",
   ],
-  preset: "angular",
 };
