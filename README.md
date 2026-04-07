@@ -124,7 +124,7 @@ See [CHANGELOG][changelog-link] for a human-readable history of changes.
 
 This project is licensed under the MIT License - see the [LICENSE.md][license-link] file for details.
 
-[changelog-link]: ./CHANGELOG.md
+[changelog-link]: https://github.com/ivuorinen/config-checker/releases
 [contributing-link]: https://github.com/ivuorinen/.github/blob/main/CONTRIBUTING.md
 [issue-link]: https://github.com/ivuorinen/config-checker/issues
 [license-badge]: https://img.shields.io/github/license/ivuorinen/config-checker?style=flat-square&labelColor=292a44&color=663399
