@@ -40,7 +40,7 @@
   "bugs": {
     "url": "https://github.com/ivuorinen/config-checker/issues"
   },
-  "packageManager": "yarn@4.13.0",
+  "packageManager": "yarn@4.14.1",
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/github": "^12.0.6",
