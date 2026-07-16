@@ -11,6 +11,10 @@ on:
     - cron: "22 8 * * 0"
   merge_group:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 jobs:
@@ -18,17 +22,17 @@ jobs:
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
-      actions: read
-      contents: read
-      packages: read
-      security-events: write
+      actions: read # CodeQL inspects workflow run metadata
+      contents: read # checkout repository source
+      packages: read # read GitHub Packages for the analysis action
+      security-events: write # upload results to code scanning
     strategy:
       fail-fast: false
       matrix:
         language: ["actions", "javascript"]
     steps:
       - name: CodeQL Analysis
-        uses: ivuorinen/actions/codeql-analysis@8395dad6b7d5d7d2e1d016cac1eede33ab404a3c # v2026.06.18
+        uses: ivuorinen/actions/codeql-analysis@ac069ff8c0298d1c84dc73681cc6d7b58ec6184b # v2026.07.15
         with:
           language: ${{ matrix.language }}
           queries: security-and-quality
