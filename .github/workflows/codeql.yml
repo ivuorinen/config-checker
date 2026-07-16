@@ -11,6 +11,10 @@ on:
     - cron: "22 8 * * 0"
   merge_group:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 jobs:
@@ -18,10 +22,10 @@ jobs:
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
-      actions: read
-      contents: read
-      packages: read
-      security-events: write
+      actions: read # CodeQL inspects workflow run metadata
+      contents: read # checkout repository source
+      packages: read # read GitHub Packages for the analysis action
+      security-events: write # upload results to code scanning
     strategy:
       fail-fast: false
       matrix:

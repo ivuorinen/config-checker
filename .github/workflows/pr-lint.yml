@@ -10,7 +10,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions: read-all
+permissions: {}
 
 env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -22,20 +22,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      contents: read
-      issues: write
-      packages: read
-      pull-requests: write
-      statuses: write
+      contents: read # checkout repository contents
+      issues: write # pr-lint may comment on issues
+      packages: read # read GitHub Packages for the pr-lint action
+      pull-requests: write # pr-lint comments on the pull request
+      statuses: write # pr-lint publishes commit status checks
 
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false # later steps use their own GITHUB_TOKEN env, not persisted git creds
 
       - name: Install and enable corepack
         shell: sh
+        # zizmor: ignore[adhoc-packages] corepack pins the yarn version; --force overrides Node's outdated bundled copy
         run: npm install -g corepack --force && corepack enable
 
       - name: Yarn Lock Changes
