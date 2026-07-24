@@ -58,3 +58,12 @@ repos:
       - id: checkov
         args:
           - "--quiet"
+
+  - repo: local
+    hooks:
+      - id: generate-config-table
+        name: Regenerate README config table
+        entry: node helpers/generate-md-table.js
+        language: system
+        pass_filenames: false
+        files: ^(lib/configuration-paths\.js|helpers/generate-md-table\.js|README\.md)$
