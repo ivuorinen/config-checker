@@ -43,74 +43,32 @@ if (foundConfig.length > 0) {
 
 ### Locations scanned
 
-| Searched configuration files        |
-| ----------------------------------- |
-| `[module name]`                     |
-| `[module name]`rc                   |
-| `[module name]`rc.json              |
-| `[module name]`rc.yaml              |
-| `[module name]`rc.yml               |
-| `[module name]`rc.js                |
-| `[module name]`rc.ts                |
-| `[module name]`rc.mjs               |
-| `[module name]`rc.cjs               |
-| `[module name]`.jsonc               |
-| `[module name]`.yaml                |
-| `[module name]`.json                |
-| `[module name]`.config.js           |
-| `[module name]`.config.ts           |
-| `[module name]`.config.mjs          |
-| `[module name]`.config.cjs          |
-| .`[module name]`                    |
-| .`[module name]`rc                  |
-| .`[module name]`rc.json             |
-| .`[module name]`rc.yaml             |
-| .`[module name]`rc.yml              |
-| .`[module name]`rc.js               |
-| .`[module name]`rc.ts               |
-| .`[module name]`rc.mjs              |
-| .`[module name]`rc.cjs              |
-| .`[module name]`.jsonc              |
-| .`[module name]`.yaml               |
-| .`[module name]`.json               |
-| .`[module name]`.config.js          |
-| .`[module name]`.config.ts          |
-| .`[module name]`.config.mjs         |
-| .`[module name]`.config.cjs         |
-| .config/`[module name]`             |
-| .config/`[module name]`rc           |
-| .config/`[module name]`rc.json      |
-| .config/`[module name]`rc.yaml      |
-| .config/`[module name]`rc.yml       |
-| .config/`[module name]`rc.js        |
-| .config/`[module name]`rc.ts        |
-| .config/`[module name]`rc.mjs       |
-| .config/`[module name]`rc.cjs       |
-| .config/`[module name]`.jsonc       |
-| .config/`[module name]`.yaml        |
-| .config/`[module name]`.json        |
-| .config/`[module name]`.config.js   |
-| .config/`[module name]`.config.ts   |
-| .config/`[module name]`.config.mjs  |
-| .config/`[module name]`.config.cjs  |
-| .config/.`[module name]`            |
-| .config/.`[module name]`rc          |
-| .config/.`[module name]`rc.json     |
-| .config/.`[module name]`rc.yaml     |
-| .config/.`[module name]`rc.yml      |
-| .config/.`[module name]`rc.js       |
-| .config/.`[module name]`rc.ts       |
-| .config/.`[module name]`rc.mjs      |
-| .config/.`[module name]`rc.cjs      |
-| .config/.`[module name]`.jsonc      |
-| .config/.`[module name]`.yaml       |
-| .config/.`[module name]`.json       |
-| .config/.`[module name]`.config.js  |
-| .config/.`[module name]`.config.ts  |
-| .config/.`[module name]`.config.mjs |
-| .config/.`[module name]`.config.cjs |
+<!-- BEGIN GENERATED CONFIG TABLE -->
+| Searched configuration files                                                           |
+| -------------------------------------------------------------------------------------- |
+| `[module name]`                                                                        |
+| `[module name]`rc                                                                      |
+| `[module name]`rc.{json,jsonc,json5,yaml,yml,toml,js,cjs,mjs,ts,cts,mts}               |
+| `[module name]`.{json,jsonc,json5,yaml,yml,toml}                                       |
+| `[module name]`.config.{json,jsonc,json5,yaml,yml,toml,js,cjs,mjs,ts,cts,mts}          |
+| .`[module name]`                                                                       |
+| .`[module name]`rc                                                                     |
+| .`[module name]`rc.{json,jsonc,json5,yaml,yml,toml,js,cjs,mjs,ts,cts,mts}              |
+| .`[module name]`.{json,jsonc,json5,yaml,yml,toml}                                      |
+| .`[module name]`.config.{json,jsonc,json5,yaml,yml,toml,js,cjs,mjs,ts,cts,mts}         |
+| .config/`[module name]`                                                                |
+| .config/`[module name]`rc                                                              |
+| .config/`[module name]`rc.{json,jsonc,json5,yaml,yml,toml,js,cjs,mjs,ts,cts,mts}       |
+| .config/`[module name]`.{json,jsonc,json5,yaml,yml,toml}                               |
+| .config/`[module name]`.config.{json,jsonc,json5,yaml,yml,toml,js,cjs,mjs,ts,cts,mts}  |
+| .config/.`[module name]`                                                               |
+| .config/.`[module name]`rc                                                             |
+| .config/.`[module name]`rc.{json,jsonc,json5,yaml,yml,toml,js,cjs,mjs,ts,cts,mts}      |
+| .config/.`[module name]`.{json,jsonc,json5,yaml,yml,toml}                              |
+| .config/.`[module name]`.config.{json,jsonc,json5,yaml,yml,toml,js,cjs,mjs,ts,cts,mts} |
+<!-- END GENERATED CONFIG TABLE -->
 
-This list has been generated using `npm run generate-table`.
+This list is generated with `yarn generate-table`; do not edit the table by hand.
 
 ## Contributing
 
