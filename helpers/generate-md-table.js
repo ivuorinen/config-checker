@@ -18,7 +18,7 @@ const table = [pad(header), `| ${"-".repeat(width)} |`, ...rows.map(pad)].join("
 const block = `${BEGIN}\n${table}\n${END}`;
 
 const readme = fs.readFileSync(README, "utf8");
-const marker = new RegExp(`${BEGIN}[\\s\\S]*${END}`);
+const marker = new RegExp(`${BEGIN}[\\s\\S]*${END}`, "u");
 if (!marker.test(readme)) {
   console.error(`Markers not found in README.md. Add a block delimited by:\n${BEGIN}\n${END}`);
   process.exit(1);
