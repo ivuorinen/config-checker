@@ -16,6 +16,7 @@ const arrayContains = (c = [], file = "") => c.includes(file);
 
 assert.ok(arrayContains(configs, ".testrc"));
 assert.ok(arrayContains(configs, ".config/testrc.ts"));
+assert.ok(arrayContains(configs, "test.toml")); // newly covered data format
 
 // A module with no matching files returns an empty list.
 assert.deepStrictEqual(configChecker("does-not-exist", path.join(__dirname, "fixtures")), []);
