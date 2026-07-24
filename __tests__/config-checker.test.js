@@ -17,4 +17,11 @@ const arrayContains = (c = [], file = "") => c.includes(file);
 assert.ok(arrayContains(configs, ".testrc"));
 assert.ok(arrayContains(configs, ".config/testrc.ts"));
 
+// A module with no matching files returns an empty list.
+assert.deepStrictEqual(configChecker("does-not-exist", path.join(__dirname, "fixtures")), []);
+
+// With no prefix and no INIT_CWD, it falls back to cwd instead of throwing.
+delete process.env.INIT_CWD;
+assert.doesNotThrow(() => configChecker("test"));
+
 console.info("configChecker tests passed");
