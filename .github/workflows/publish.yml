@@ -12,20 +12,17 @@ concurrency:
 
 permissions: {}
 
-env:
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
 jobs:
   Linter:
     name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Push-only workflow: there is no issue or pull request to comment on, so
+    # no issues/pull-requests write scope.
     permissions:
       statuses: write # pr-lint publishes commit status checks
       contents: read # checkout repository contents
       packages: read # read GitHub Packages for the pr-lint action
-      issues: write # pr-lint may comment on issues
-      pull-requests: write # pr-lint comments on the pull request
 
     steps:
       - name: Run PR Lint
@@ -53,31 +50,47 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
+          # No auth token: npm authenticates to the registry via OIDC Trusted
+          # Publishing (requires a trusted publisher configured on npmjs.com).
           node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
           scope: "@ivuorinen"
 
-      - name: Install and enable corepack
-        shell: sh
-        # zizmor: ignore[adhoc-packages] corepack pins the yarn version; --force overrides Node's outdated bundled copy
-        run: npm install -g corepack --force && corepack enable
+      - name: Enable corepack
+        shell: bash
+        # Node 25+ no longer bundles corepack and .nvmrc is past that, so install
+        # one — version-pinned, with install scripts disabled, in the job that
+        # holds the release credentials. Renovate has no manager for versions
+        # inside `run:`, so bump this by hand when corepack releases.
+        # zizmor: ignore[adhoc-packages] a global tool has no lockfile; pinned and --ignore-scripts
+        run: |
+          if [ "$(node -p 'parseInt(process.versions.node, 10)')" -ge 25 ]; then
+            npm install -g --ignore-scripts corepack@0.35.0
+          fi
+          corepack enable
 
       - name: Cache Node Modules
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        id: cache
+        # .nvmrc moves independently of yarn.lock, so both are in the key.
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('**/yarn.lock') }}
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc', '**/yarn.lock') }}
 
+      # Unconditional and immutable: skipping the install on a cache hit would
+      # release against a tree that no longer matches the manifest, and
+      # --immutable fails the release if yarn.lock would change. Against a
+      # restored node_modules it relinks rather than refetches.
+      # --mode=skip-build keeps dependency install scripts from running in the
+      # job that can publish.
       - name: Install Dependencies
         shell: bash
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --immutable --mode=skip-build
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@b12c8f6015dc215fe37bc154d4ad456dd3833c90 # v6.0.0
         with:
           extra_plugins: conventional-changelog-conventionalcommits@^9.3.1
         env:
+          # No NPM_TOKEN: @semantic-release/npm publishes via OIDC Trusted
+          # Publishing using the id-token: write permission above.
           GITHUB_TOKEN: ${{ secrets.PAT }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
