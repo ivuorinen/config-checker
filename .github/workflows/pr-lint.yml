@@ -12,8 +12,9 @@ concurrency:
 
 permissions: {}
 
+# No NPM_TOKEN anywhere in this workflow: nothing here publishes, and a
+# workflow-level secret would reach every step, third-party actions included.
 env:
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   GITHUB_TOKEN: ${{ github.token }}
 
 jobs:
@@ -35,10 +36,16 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: false # later steps use their own GITHUB_TOKEN env, not persisted git creds
 
-      - name: Install and enable corepack
-        shell: sh
-        # zizmor: ignore[adhoc-packages] corepack pins the yarn version; --force overrides Node's outdated bundled copy
-        run: npm install -g corepack --force && corepack enable
+      - name: Enable corepack
+        shell: bash
+        # No setup-node here, so this runs on the runner image's Node; Node 25+
+        # no longer bundles corepack. Version-pinned, install scripts disabled.
+        # zizmor: ignore[adhoc-packages] a global tool has no lockfile; pinned and --ignore-scripts
+        run: |
+          if [ "$(node -p 'parseInt(process.versions.node, 10)')" -ge 25 ]; then
+            npm install -g --ignore-scripts corepack@0.35.0
+          fi
+          corepack enable
 
       - name: Yarn Lock Changes
         uses: Simek/yarn-lock-changes@59f47ee499424d2c2437c5aebf863b5c6d50a5bc # v0.14.1
@@ -46,11 +53,37 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Run PR Lint
         # https://github.com/ivuorinen/actions
         uses: ivuorinen/actions/pr-lint@ac069ff8c0298d1c84dc73681cc6d7b58ec6184b # v2026.07.15
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  Test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read # checkout repository contents
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".nvmrc"
+
+      # Both scripts use only Node built-ins and this package's own lib/, so no
+      # dependency install is needed (and none can run install scripts).
+      - name: Run tests
+        shell: bash
+        run: node ./__tests__/config-checker.test.js
+
+      - name: Check the README table matches lib/configuration-paths.js
+        shell: bash
+        run: node ./helpers/generate-md-table.js --check
