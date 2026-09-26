@@ -5,6 +5,10 @@ import { createRequire } from "node:module";
 // repo). ESLint v10 flat config uses native ESM resolution that does not honor
 // NODE_PATH, so a bare `import` of these plugins fails under MegaLinter's
 // bundled install; createRequire resolves them from the local node_modules.
+//
+// Kept in step with base-configs-eslint/index.cjs by hand. The one deliberate
+// difference: upstream ignores `lib/`, but here `lib/` is the source code, so it
+// stays linted.
 const require = createRequire(import.meta.url);
 const globals = require("globals");
 const configEslint = require("eslint-config-eslint");
@@ -36,9 +40,9 @@ export default [
         ...globals.es2021,
         ...globals.node,
       },
-      parserOptions: {
-        ecmaVersion: 12,
-      },
+      // No ecmaVersion override: flat config defaults to "latest". Pinning an
+      // older version turns newer syntax (class private fields, top-level
+      // await) into a fatal parse error, which runs no rules on the file.
     },
   },
   pluginJs.configs.recommended,
