@@ -2,5 +2,43 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>ivuorinen/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "description": "GitHub Actions and pre-commit hooks never reach the published package (`files` is lib/ only), so updating one must never release. The actions scope matches the release rule {type: chore, scope: actions, release: false} in .releaserc.cjs for patch, minor and major alike. Every @ivuorinen config package depends on this one at runtime, so each needless release here fans out into Renovate bumps across all of them.",
+      "matchManagers": [
+        "github-actions",
+        "pre-commit"
+      ],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "actions"
+    },
+    {
+      "description": "devDependencies never reach consumers, so updating one must never release. The literal prefix is needed because the shared preset's major rule sets commitMessagePrefix 'chore(deps)!: ', which a packageRule can only override, not unset; 'chore(actions)' maps to release: false in .releaserc.cjs. This package has no runtime dependencies, so with this rule a 'chore(deps)!' (a major) can only come from a deliberate manual commit.",
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "actions",
+      "commitMessagePrefix": "chore(actions): ",
+      "groupName": "devDependencies"
+    },
+    {
+      "description": "pre-commit hook majors: the shared preset restores the 'chore(actions): ' prefix for github-actions majors only, so without this a hook major still arrives as 'chore(deps)!: ' and releases a major.",
+      "matchManagers": [
+        "pre-commit"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "commitMessagePrefix": "chore(actions): "
+    },
+    {
+      "description": "conventional-changelog-conventionalcommits 10 needs conventional-changelog-writer 9, but semantic-release's release-notes-generator 14 ships writer 8: 10.0-10.3 render notes with only the version heading and 10.4 fails the release. Hold it below 10 (here and in publish.yml's extra_plugins) until a stable release-notes-generator moves to writer 9.",
+      "matchPackageNames": [
+        "conventional-changelog-conventionalcommits"
+      ],
+      "allowedVersions": "<10"
+    }
   ]
 }

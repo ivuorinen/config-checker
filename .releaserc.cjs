@@ -8,7 +8,7 @@ module.exports = {
       {
         preset: "conventionalcommits",
         releaseRules: [
-          { breaking: true, type: "chore", scope: "deps", release: "minor" },
+          { breaking: true, type: "chore", scope: "deps", release: "major" },
           { type: "chore", scope: "deps", release: "patch" },
           { type: "chore", scope: "actions", release: false },
         ],
