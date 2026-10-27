@@ -70,6 +70,11 @@ if (foundConfig.length > 0) {
 
 This list is generated with `yarn generate-table`; do not edit the table by hand.
 
+### Debugging
+
+Set `DEBUG=config-checker` (or `DEBUG=*`) to print every path that is checked.
+Like the `debug` package, `DEBUG` is a comma-separated list of names, so `DEBUG=express:*` and other namespaces leave the output alone.
+
 ## Contributing
 
 If you are interested in helping contribute, please take a look at our [contribution guidelines][contributing-link] and open an [issue][issue-link] or [pull request][pull-request-link].
