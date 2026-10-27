@@ -102,7 +102,8 @@ Like the `debug` package, `DEBUG` is a comma-separated list of names, so `DEBUG=
 
 ## Contributing
 
-If you are interested in helping contribute, please take a look at our [contribution guidelines][contributing-link] and open an [issue][issue-link] or [pull request][pull-request-link].
+If you are interested in helping contribute, please take a look at our [contribution guidelines][contributing-link]
+and open an [issue][issue-link] or [pull request][pull-request-link].
 
 ## Changelog
 
