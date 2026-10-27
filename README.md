@@ -24,19 +24,22 @@ Configuration packages located in this repository use this tool to check for exi
 
 ### Real world example
 
-For commitlint-config you can find the usage in the [commitlint-config postinstall.cjs][commitlint-postinstall-link] file.
+For eslint-config you can find the usage in the [eslint-config postinstall.cjs][eslint-postinstall-link] file.
 
 Here's a snippet from the file:
 
 ```js
-const process = require("process");
+const process = require("node:process");
 const checkConfig = require("@ivuorinen/config-checker");
-const foundConfig = checkConfig("commitlint");
+
+// INIT_CWD is an npm/yarn convention, not a guarantee.
+const cwd = process.env.INIT_CWD || process.cwd();
+const foundConfig = checkConfig("eslint", cwd);
 
 if (foundConfig.length > 0) {
-  console.log("commitlint-config: Found existing commitlint config file, skipping creation.");
-  console.log("commitlint-config: If you want to create a new config file, please remove the existing one.");
-  console.log(`commitlint-config: Found config files at: ${foundConfig.join(", ")}`);
+  console.log("eslint-config: Found existing eslint config file, skipping creation.");
+  console.log("eslint-config: If you want to create a new config file, please remove the existing one.");
+  console.log(`eslint-config: Found config files at: ${foundConfig.join(", ")}`);
   process.exit(0);
 }
 ```
@@ -97,4 +100,4 @@ This project is licensed under the MIT License - see the [LICENSE.md][license-li
 [pull-request-link]: https://github.com/ivuorinen/config-checker/pulls
 [style-badge]: https://img.shields.io/badge/code_style-ivuorinen%E2%80%99s-663399.svg?labelColor=292a44&style=flat-square
 [style-link]: https://github.com/ivuorinen/config-checker
-[commitlint-postinstall-link]: https://github.com/ivuorinen/base-configs-commitlint/scripts/postinstall.js
+[eslint-postinstall-link]: https://github.com/ivuorinen/base-configs-eslint/blob/main/scripts/postinstall.cjs
