@@ -1,0 +1,7 @@
+---
+# Codacy analyses with its own tool patterns, not eslint.config.mjs. The tests
+# build every path from an fs.mkdtempSync directory and use require() in this
+# CommonJS package, both of which those patterns report; the repository's own
+# ESLint config covers __tests__ instead.
+exclude_paths:
+  - "__tests__/**"

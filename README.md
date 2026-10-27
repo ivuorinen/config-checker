@@ -24,22 +24,47 @@ Configuration packages located in this repository use this tool to check for exi
 
 ### Real world example
 
-For commitlint-config you can find the usage in the [commitlint-config postinstall.cjs][commitlint-postinstall-link] file.
+For eslint-config you can find the usage in the [eslint-config postinstall.cjs][eslint-postinstall-link] file.
 
 Here's a snippet from the file:
 
 ```js
-const process = require("process");
+const process = require("node:process");
 const checkConfig = require("@ivuorinen/config-checker");
-const foundConfig = checkConfig("commitlint");
+
+// INIT_CWD is an npm/yarn convention, not a guarantee.
+const cwd = process.env.INIT_CWD || process.cwd();
+const foundConfig = checkConfig("eslint", cwd);
 
 if (foundConfig.length > 0) {
-  console.log("commitlint-config: Found existing commitlint config file, skipping creation.");
-  console.log("commitlint-config: If you want to create a new config file, please remove the existing one.");
-  console.log(`commitlint-config: Found config files at: ${foundConfig.join(", ")}`);
+  console.log("eslint-config: Found existing eslint config file, skipping creation.");
+  console.log("eslint-config: If you want to create a new config file, please remove the existing one.");
+  console.log(`eslint-config: Found config files at: ${foundConfig.join(", ")}`);
   process.exit(0);
 }
 ```
+
+### Writing a starter config
+
+`writeStarterConfig(moduleName, fileName, contents, pathPrefix)` does the whole postinstall step:
+it checks for an existing config the same way, then creates `fileName` in the project root.
+It never throws, because a throw from postinstall fails the consumer's whole install; it returns what happened so the caller can report it.
+
+```js
+const { writeStarterConfig } = require("@ivuorinen/config-checker");
+
+const result = writeStarterConfig("eslint", "eslint.config.mjs", "export default [];");
+
+if (result.status === "found") {
+  console.log(`eslint-config: Found config files at: ${result.found.join(", ")}, skipping creation.`);
+} else if (result.status === "failed") {
+  console.log(`eslint-config: could not write ${result.filePath} (${result.error.code}).`);
+}
+```
+
+- The file is created with the `wx` flag, so a config another install wrote in the meantime is never overwritten; that case is reported as `found`.
+- `contents` gets a final newline when it lacks one, so the generated file passes EditorConfig and formatter checks.
+- `pathPrefix` defaults to `INIT_CWD`, then the current directory, like `checkConfig`.
 
 ### Locations scanned
 
@@ -70,9 +95,15 @@ if (foundConfig.length > 0) {
 
 This list is generated with `yarn generate-table`; do not edit the table by hand.
 
+### Debugging
+
+Set `DEBUG=config-checker` (or `DEBUG=*`) to print every path that is checked.
+Like the `debug` package, `DEBUG` is a comma-separated list of names, so `DEBUG=express:*` and other namespaces leave the output alone.
+
 ## Contributing
 
-If you are interested in helping contribute, please take a look at our [contribution guidelines][contributing-link] and open an [issue][issue-link] or [pull request][pull-request-link].
+If you are interested in helping contribute, please take a look at our [contribution guidelines][contributing-link]
+and open an [issue][issue-link] or [pull request][pull-request-link].
 
 ## Changelog
 
@@ -92,4 +123,4 @@ This project is licensed under the MIT License - see the [LICENSE.md][license-li
 [pull-request-link]: https://github.com/ivuorinen/config-checker/pulls
 [style-badge]: https://img.shields.io/badge/code_style-ivuorinen%E2%80%99s-663399.svg?labelColor=292a44&style=flat-square
 [style-link]: https://github.com/ivuorinen/config-checker
-[commitlint-postinstall-link]: https://github.com/ivuorinen/base-configs-commitlint/scripts/postinstall.js
+[eslint-postinstall-link]: https://github.com/ivuorinen/base-configs-eslint/blob/main/scripts/postinstall.cjs

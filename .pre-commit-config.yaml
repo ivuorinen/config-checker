@@ -11,18 +11,21 @@ repos:
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
       - id: check-symlinks
+      - id: check-toml
       - id: check-yaml
         args: [--allow-multiple-documents]
       - id: end-of-file-fixer
       - id: mixed-line-ending
         args: [--fix=auto]
-      - id: pretty-format-json
-        args: [--autofix, --no-sort-keys]
+  # No pretty-format-json hook: it expands every array one element per line,
+  # which Prettier (JSON_PRETTIER in .mega-linter.yml) collapses straight back.
+  # Two autofixers reverting each other fail every run. Prettier owns JSON
+  # style here because it is the one that runs in CI.
 
-  - repo: https://github.com/zizmorcore/zizmor-pre-commit
-    rev: v1.31.1
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker
+    rev: v4.0.2
     hooks:
-      - id: zizmor
+      - id: editorconfig-checker
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.49.1
@@ -52,12 +55,10 @@ repos:
       - id: actionlint
         args: ["-shellcheck="]
 
-  - repo: https://github.com/bridgecrewio/checkov.git
-    rev: "3.3.30"
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.31.1
     hooks:
-      - id: checkov
-        args:
-          - "--quiet"
+      - id: zizmor
 
   - repo: local
     hooks:
