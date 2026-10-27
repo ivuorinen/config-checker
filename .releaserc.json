@@ -1,8 +1,4 @@
 {
-  "extends": [
-    "@ivuorinen/semantic-release-config"
-  ],
-  "branches": [
-    "main"
-  ]
+  "extends": ["@ivuorinen/semantic-release-config"],
+  "branches": ["main"]
 }
