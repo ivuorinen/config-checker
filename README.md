@@ -44,6 +44,28 @@ if (foundConfig.length > 0) {
 }
 ```
 
+### Writing a starter config
+
+`writeStarterConfig(moduleName, fileName, contents, pathPrefix)` does the whole postinstall step:
+it checks for an existing config the same way, then creates `fileName` in the project root.
+It never throws, because a throw from postinstall fails the consumer's whole install; it returns what happened so the caller can report it.
+
+```js
+const { writeStarterConfig } = require("@ivuorinen/config-checker");
+
+const result = writeStarterConfig("eslint", "eslint.config.mjs", "export default [];");
+
+if (result.status === "found") {
+  console.log(`eslint-config: Found config files at: ${result.found.join(", ")}, skipping creation.`);
+} else if (result.status === "failed") {
+  console.log(`eslint-config: could not write ${result.filePath} (${result.error.code}).`);
+}
+```
+
+- The file is created with the `wx` flag, so a config another install wrote in the meantime is never overwritten; that case is reported as `found`.
+- `contents` gets a final newline when it lacks one, so the generated file passes EditorConfig and formatter checks.
+- `pathPrefix` defaults to `INIT_CWD`, then the current directory, like `checkConfig`.
+
 ### Locations scanned
 
 <!-- BEGIN GENERATED CONFIG TABLE -->
