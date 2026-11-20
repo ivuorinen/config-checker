@@ -46,6 +46,6 @@
     "@ivuorinen/eslint-config": "^2.0.0",
     "@ivuorinen/semantic-release-config": "^3.0.0",
     "eslint": "^10.13.0",
-    "semantic-release": "^25.0.9"
+    "semantic-release": "^26.0.0"
   }
 }
