@@ -41,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/ivuorinen/config-checker/issues"
   },
-  "packageManager": "yarn@4.18.1",
+  "packageManager": "yarn@4.19.0",
   "devDependencies": {
     "@ivuorinen/eslint-config": "^2.0.0",
     "@ivuorinen/semantic-release-config": "^3.0.0",
